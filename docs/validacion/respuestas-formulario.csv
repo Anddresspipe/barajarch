@@ -1,5 +1,6 @@
-id,dispositivo,conocia_reglas,tareas_sin_ayuda_de_6,decidio_cierre_sin_ayuda,satisfaccion,latencia,sus
-U01,Celular,Las dos,0,no,4,5,65
-U02,Computador,Las dos,5,si,5,5,92.5
-U04,Computador,Ninguna,4,no,4,5,82.5
-U05,Computador,Una de las dos,6,si,4,4,97.5
+id,frecuencia,dispositivo,conocia_reglas,tareas_sin_ayuda_de_6,decidio_cierre_sin_ayuda,satisfaccion,latencia,claridad_reglas,claridad_ayuda,justicia_5_puntos,sus
+U01,casi nunca,Celular,Las dos,0,no,4,5,4,4,3,65
+U02,casi todos los dias,Computador,Las dos,5,si,5,5,5,3,4,92.5
+U03,alguna vez al mes,Computador,Una de las dos,3,no,5,5,3,3,4,77.5
+U04,casi nunca,Computador,Ninguna,4,no,4,5,5,5,3,82.5
+U05,casi nunca,Computador,Una de las dos,6,si,4,4,4,4,4,97.5

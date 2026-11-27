@@ -1,5 +1,6 @@
 id,modalidad,cerro_ronda_valida,errores,tiempo_por_turno_s,satisfaccion_1a5,latencia_percibida_1a5,sus_0a100
 U01,,no,,,4,5,65
 U02,,si,,,5,5,92.5
+U03,,no,,,5,5,77.5
 U04,,no,,,4,5,82.5
 U05,,si,,,4,4,97.5
