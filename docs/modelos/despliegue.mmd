@@ -1,0 +1,17 @@
+flowchart LR
+  subgraph CL["Nodo cliente: dispositivo del jugador"]
+    NAV["Navegador web<br/>index.html · app.js · style.css"]
+  end
+  subgraph DK["Host Docker (docker-compose)"]
+    subgraph APP["Contenedor app · node:20-alpine · puerto 3000"]
+      SRV["Servidor Node.js<br/>http + ws (barajarch-backend)"]
+      EST["Artefacto estático<br/>/app/frontend"]
+    end
+    subgraph DB["Contenedor db · postgres:16 · puerto 5432"]
+      PG[("PostgreSQL<br/>partida · ronda_cierre")]
+    end
+  end
+  NAV -- "HTTP :3000<br/>GET estáticos · POST /api/usuarios" --> SRV
+  NAV <-- "WebSocket /ws?jugador=id<br/>comandos JSON ↔ vistas" --> SRV
+  SRV -- "lee" --> EST
+  SRV -- "TCP 5432 · pg<br/>DATABASE_URL" --> PG

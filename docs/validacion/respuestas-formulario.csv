@@ -1,0 +1,5 @@
+id,dispositivo,conocia_reglas,tareas_sin_ayuda_de_6,decidio_cierre_sin_ayuda,satisfaccion,latencia,sus
+U01,Celular,Las dos,0,no,4,5,65
+U02,Computador,Las dos,5,si,5,5,92.5
+U04,Computador,Ninguna,4,no,4,5,82.5
+U05,Computador,Una de las dos,6,si,4,4,97.5

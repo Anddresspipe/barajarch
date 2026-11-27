@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BarajaArch – Cartas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="marca"><span class="marca-icono" aria-hidden="true">♠</span><div><h1>BarajaArch</h1><small>CARTAS EN LÍNEA</small></div></div>
+    <span id="estado-conexion"></span>
+    <span class="skins">
+      <label>Anverso
+        <select id="skin-anverso">
+          <option value="clasico">Clásico</option>
+          <option value="noche">Noche</option>
+          <option value="retro">Retro</option>
+        </select>
+      </label>
+      <label title="Es el diseño que verán los demás jugadores en tus cartas">Mi reverso
+        <select id="skin-reverso">
+          <option value="azul">Azul</option>
+          <option value="burdeos">Burdeos</option>
+          <option value="bosque">Bosque</option>
+          <option value="liso">Liso</option>
+          <option value="anime">Uma</option>
+          <option value="hechicero">Gojo</option>
+          <option value="tiburon">Tralalero tralala</option>
+        </select>
+      </label>
+    </span>
+  </header>
+  <main>
+    <section id="pantalla-login" class="tarjeta">
+      <h2>Bienvenido</h2>
+      <p class="sub">Entra para jugar Clásica o Apuntado 101 con tus amigos.</p>
+      <label for="nombre">Nombre</label>
+      <input id="nombre" placeholder="Tu nombre" maxlength="20" autocomplete="username">
+      <label for="pin">PIN</label>
+      <input id="pin" type="password" inputmode="numeric" placeholder="4 a 8 dígitos" maxlength="8" autocomplete="current-password">
+      <p class="ayuda">Si el nombre es nuevo, queda registrado con ese PIN. Con el mismo nombre y PIN recuperas tus partidas desde cualquier navegador.</p>
+      <button id="btn-entrar">Entrar</button>
+    </section>
+
+    <section id="pantalla-lobby" hidden>
+      <div class="lobby-cab">
+        <h2>Lobby</h2>
+        <p>Crea una sala nueva o únete con el código que te compartieron.</p>
+      </div>
+      <div class="rejilla">
+        <div class="tarjeta">
+          <h3>Crear una sala</h3>
+          <div class="fila">
+            <select id="modalidad" aria-label="Modalidad de juego">
+              <option value="CLASICA">Clásica (4-3-3)</option>
+              <option value="APUNTADO">Apuntado 101</option>
+            </select>
+            <button id="btn-ayuda-modalidad" class="btn-ayuda" type="button" aria-expanded="false" aria-controls="ayuda-modalidad" aria-label="Cómo se juega esta modalidad" title="Cómo se juega esta modalidad">?</button>
+          </div>
+          <p id="ayuda-modalidad" class="explicacion" hidden></p>
+          <label class="opcion" for="con-comodines">
+            <input type="checkbox" id="con-comodines">
+            <span>Jugar con los 4 comodines (★)</span>
+          </label>
+          <p class="ayuda">Un comodín vale por cualquier carta, máximo uno por grupo. Si te queda suelto, resta 15 puntos.</p>
+          <div class="fila"><button id="btn-crear">Crear sala</button></div>
+        </div>
+        <div class="tarjeta">
+          <h3>Unirme con un código</h3>
+          <div class="fila">
+            <input id="codigo-sala" type="text" maxlength="6" placeholder="ABC123" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Código de la sala">
+            <button id="btn-unirse-codigo">Unirme</button>
+          </div>
+          <p class="ayuda">Pídele el código a quien creó la sala. Al crear una, te aparecerá para compartirlo.</p>
+        </div>
+        <div id="mis-partidas" class="tarjeta ancha" hidden>
+          <h3>Mis partidas</h3>
+          <ul id="lista-mias"></ul>
+        </div>
+        <div id="historial" class="tarjeta ancha" hidden>
+          <h3>Mi historial</h3>
+          <table id="historial-tabla"></table>
+          <p id="historial-vacio" class="ayuda" hidden>Aún no has terminado ninguna partida.</p>
+          <ul id="historial-recientes"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="pantalla-juego" hidden>
+      <div id="info"></div>
+      <button id="btn-copiar-codigo" type="button" hidden>Copiar código de la sala</button>
+      <div id="mesa-juego">
+        <div id="asiento-arriba" class="asiento arriba"></div>
+        <div id="asiento-izquierda" class="asiento izquierda"></div>
+        <div id="centro">
+          <div class="pilas">
+            <div class="pila" id="mazo"><span>Mazo</span><div class="carta reverso" id="carta-mazo" role="button" tabindex="0" aria-label="Robar del mazo"></div><b id="n-mazo">0</b></div>
+            <div class="pila" id="pozo"><span>Pozo</span><div id="tope-pozo"></div></div>
+          </div>
+          <div id="turno" role="status" aria-live="polite"></div>
+          <div id="reloj" role="timer" aria-live="off" hidden></div>
+          <div class="fila botones">
+            <button id="btn-cerrar">Cerrar ronda</button>
+            <button id="btn-iniciar" hidden>Iniciar partida</button>
+            <button id="btn-salir" hidden>Volver al lobby</button>
+            <button id="btn-abandonar" hidden>Abandonar</button>
+          </div>
+          <p id="ayuda-cierre" class="ayuda" role="status"></p>
+        </div>
+        <div id="asiento-derecha" class="asiento derecha"></div>
+        <section id="panel-mano">
+          <div class="fila encabezado-mano">
+            <h3>Tu mano <span id="conteo-mano"></span></h3>
+            <div id="mi-descarte"></div>
+            <button id="btn-orden-palo" type="button">Ordenar por palo</button>
+            <button id="btn-orden-valor" type="button">Ordenar por valor</button>
+          </div>
+          <p class="ayuda">Arrastra las cartas para agruparlas (o Mayús + ← → con el teclado). Clic en una carta para descartarla cuando sea tu turno.</p>
+          <div id="mano"></div>
+        </section>
+      </div>
+      <h3>Marcador</h3>
+      <table id="marcador"></table>
+    </section>
+    <div id="resultado" hidden role="dialog" aria-modal="true" aria-labelledby="resultado-titulo">
+      <div class="tarjeta-resultado">
+        <h2 id="resultado-titulo"></h2>
+        <p id="resultado-sub"></p>
+        <table id="resultado-tabla"></table>
+        <h3>Manos al cerrar</h3>
+        <div id="resultado-manos"></div>
+        <div id="revancha-resultado" class="revancha" hidden></div>
+        <button id="btn-continuar" type="button">Continuar</button>
+      </div>
+    </div>
+    <p id="mensaje" role="status"></p>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

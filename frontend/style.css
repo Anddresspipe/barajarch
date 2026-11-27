@@ -1,0 +1,212 @@
+/* ---- skins de las cartas: el anverso es de quien mira (variables); el reverso es de quien juega la carta (ver .reverso) ---- */
+:root, body[data-anverso="clasico"] { --anverso-fondo:#fbf9f3; --anverso-borde:#d9d4c3; --palo-negro:#14181f; --palo-rojo:#c0262d; }
+body[data-anverso="noche"] { --anverso-fondo:#1e2736; --anverso-borde:#46546d; --palo-negro:#e8edf5; --palo-rojo:#ff8a8a; }
+body[data-anverso="retro"] { --anverso-fondo:#fbefc9; --anverso-borde:#b7842b; --palo-negro:#3b2a14; --palo-rojo:#a3391a; }
+
+/* ---- sistema de diseno ---- */
+:root {
+  --fondo:#0c1322; --superficie:#131c2f; --superficie-2:#18233a; --linea:#243252; --linea-suave:#1b2742;
+  --texto:#e8edf6; --suave:#9aa9c4; --tenue:#6f7f9c;
+  --primario:#4c8dff; --primario-2:#3a76e0; --acento:#f4b740; --ok:#4ade80; --mal:#f87171;
+  --fieltro-1:#136a41; --fieltro-2:#0b4a2c;
+  --radio:12px; --sombra:0 1px 2px #0006, 0 8px 24px #0004;
+  --fuente:'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+* { box-sizing:border-box; }
+html { color-scheme:dark; }
+body { margin:0; font-family:var(--fuente); font-size:16px; line-height:1.45; color:var(--texto); background:var(--fondo) radial-gradient(1200px 500px at 50% -200px, #1b2c52 0, transparent 70%) no-repeat; min-height:100vh; -webkit-font-smoothing:antialiased; }
+h1, h2, h3 { margin:0; line-height:1.2; letter-spacing:-.01em; }
+h2 { font-size:1.35rem; }
+h3 { font-size:1rem; color:var(--suave); font-weight:600; text-transform:uppercase; letter-spacing:.06em; font-size:.78rem; margin-bottom:.6rem; }
+ul { list-style:none; margin:0; padding:0; }
+li { margin:0; }
+
+/* ---- cabecera ---- */
+header { position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:1rem; padding:.7rem 1.2rem; background:#0c1322e6; backdrop-filter:blur(10px); border-bottom:1px solid var(--linea-suave); }
+.marca { display:flex; align-items:center; gap:.6rem; }
+.marca-icono { width:34px; height:34px; border-radius:9px; display:grid; place-items:center; font-size:1.2rem; color:#111; background:linear-gradient(135deg,#ffd479,#f4b740); box-shadow:0 2px 8px #f4b74055; }
+.marca h1 { font-size:1.1rem; font-weight:700; }
+.marca small { display:block; color:var(--tenue); font-size:.72rem; letter-spacing:.04em; margin-top:1px; }
+#estado-conexion { font-size:.8rem; color:var(--suave); padding:.25rem .65rem; border-radius:999px; background:var(--superficie); border:1px solid var(--linea); }
+#estado-conexion:empty { display:none; }
+#estado-conexion::before { content:''; display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--ok); margin-right:.45rem; vertical-align:middle; }
+header .skins { margin-left:auto; display:flex; gap:.8rem; font-size:.78rem; color:var(--suave); }
+header .skins label { display:flex; align-items:center; gap:.4rem; }
+header .skins select { padding:.3rem .55rem; font-size:.8rem; min-width:5.5rem; }
+
+main { max-width:1040px; margin:0 auto; padding:1.4rem 1.2rem 3rem; }
+
+/* ---- controles ---- */
+button, select, input { font:inherit; font-size:.95rem; padding:.6rem .9rem; border-radius:9px; border:1px solid var(--linea); background:var(--superficie-2); color:var(--texto); transition:background .15s, border-color .15s, transform .05s, box-shadow .15s; }
+input::placeholder { color:var(--tenue); }
+input:focus, select:focus { outline:none; border-color:var(--primario); box-shadow:0 0 0 3px #4c8dff33; }
+button { cursor:pointer; font-weight:600; }
+button:hover:not(:disabled) { background:#1f2d4a; border-color:#34456b; }
+button:active:not(:disabled) { transform:translateY(1px); }
+button:disabled { opacity:.4; cursor:not-allowed; }
+button:focus-visible { outline:2px solid var(--primario); outline-offset:2px; }
+button.primario, #btn-entrar, #btn-crear, #btn-unirse-codigo, #btn-iniciar, #btn-cerrar, #btn-continuar { background:var(--primario); border-color:var(--primario); color:#fff; }
+button.primario:hover:not(:disabled), #btn-entrar:hover:not(:disabled), #btn-crear:hover:not(:disabled), #btn-unirse-codigo:hover:not(:disabled), #btn-iniciar:hover:not(:disabled), #btn-cerrar:hover:not(:disabled), #btn-continuar:hover:not(:disabled) { background:var(--primario-2); border-color:var(--primario-2); }
+#btn-cerrar:not(:disabled) { background:var(--ok); border-color:var(--ok); color:#06210f; }
+#btn-cerrar:hover:not(:disabled) { background:#34c96f; border-color:#34c96f; }
+#btn-abandonar { color:var(--mal); }
+.fila { display:flex; gap:.6rem; flex-wrap:wrap; margin:.6rem 0; align-items:center; }
+.ayuda { margin:.4rem 0 .6rem; font-size:.84rem; color:var(--suave); }
+#mensaje { min-height:1.4rem; margin:1rem 0 0; color:var(--acento); font-size:.9rem; text-align:center; }
+
+/* ---- pantallas: acceso y lobby ---- */
+.tarjeta { background:var(--superficie); border:1px solid var(--linea-suave); border-radius:var(--radio); padding:1.3rem 1.4rem; box-shadow:var(--sombra); }
+#pantalla-login { max-width:420px; margin:6vh auto 0; }
+#pantalla-login h2 { margin-bottom:.3rem; font-size:1.6rem; }
+#pantalla-login .sub { color:var(--suave); margin:0 0 1.2rem; }
+#pantalla-login label { display:block; font-size:.8rem; color:var(--suave); margin:.8rem 0 .3rem; font-weight:600; }
+#pantalla-login input { width:100%; }
+#pantalla-login button#btn-entrar { width:100%; margin-top:.4rem; padding:.75rem; }
+.lobby-cab { margin-bottom:1.2rem; }
+.lobby-cab p { margin:.25rem 0 0; color:var(--suave); }
+.rejilla { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:1rem; }
+.rejilla .ancha { grid-column:1 / -1; }
+.tarjeta h3 { margin-bottom:.8rem; }
+.tarjeta .fila:first-of-type { margin-top:0; }
+#modalidad { flex:1 1 11rem; }
+#codigo-sala { flex:1 1 9rem; text-transform:uppercase; letter-spacing:.25em; font-weight:700; text-align:center; font-size:1.05rem; }
+.btn-ayuda { width:2.5rem; padding:.6rem 0; border-radius:50%; font-weight:700; color:var(--suave); }
+.btn-ayuda[aria-expanded="true"] { background:var(--acento); border-color:var(--acento); color:#111; }
+.explicacion { margin:.4rem 0 .2rem; padding:.7rem .9rem; background:#0f1930; border:1px solid var(--linea); border-left:3px solid var(--acento); border-radius:8px; font-size:.9rem; line-height:1.5; color:#cbd6ea; }
+#lista-mias li, #historial-recientes li { display:flex; align-items:center; gap:.6rem; justify-content:space-between; padding:.55rem .1rem; border-bottom:1px solid var(--linea-suave); font-size:.92rem; color:var(--suave); }
+#lista-mias li:last-child, #historial-recientes li:last-child { border-bottom:0; }
+#mis-partidas, #historial { margin:0; }
+
+/* ---- tablas ---- */
+table { border-collapse:collapse; width:100%; font-size:.92rem; }
+th { font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--tenue); font-weight:600; }
+td, th { padding:.5rem .6rem; border-bottom:1px solid var(--linea-suave); text-align:left; }
+tr:last-child td { border-bottom:0; }
+tr.turno td { background:#f4b74018; }
+tr.turno td:first-child::before { content:'▶ '; color:var(--acento); font-size:.8em; }
+tr.desconectado td { opacity:.55; }
+#historial-tabla th, #historial-tabla td { text-align:center; padding:.4rem .5rem; }
+#historial-tabla th:first-child, #historial-tabla td:first-child { text-align:left; }
+
+/* ---- cartas ---- */
+#mano { display:flex; gap:.45rem; flex-wrap:wrap; padding:.2rem 0 .3rem; }
+.carta { user-select:none; -webkit-user-select:none; width:58px; height:84px; padding:0; background:var(--anverso-fondo); color:var(--palo-negro); border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:1.15rem; font-weight:700; cursor:pointer; border:1px solid var(--anverso-borde); box-shadow:0 1px 2px #0005, 0 4px 10px #0003; transition:transform .12s, box-shadow .12s, border-color .12s; }
+.carta.roja { color:var(--palo-rojo); }
+/* Reverso: lo elige el DUEÑO de las cartas (data-reverso) y lo ven los demas; sin valor o desconocido = azul */
+.carta.reverso, .carta.reverso[data-reverso="azul"] { background:repeating-linear-gradient(45deg,#1e3a8a 0 6px,#2f56c9 6px 12px); border:2px solid #f8f5ec; cursor:default; }
+.carta.reverso[data-reverso="burdeos"] { background:repeating-linear-gradient(90deg,#7f1d1d 0 5px,#b91c1c 5px 10px); border-color:#f4b740; }
+.carta.reverso[data-reverso="bosque"] { background:radial-gradient(circle at 50% 50%,#f4b740 0 2px,transparent 3px) 0 0/10px 10px,#064e3b; border-color:#f4b740; }
+.carta.reverso[data-reverso="liso"] { background:#475569; border-color:#cbd5e1; }
+.carta.reverso[data-reverso="anime"] { background:#4c1d95 url("img/reverso-anime.jpg") center/cover no-repeat; border-color:#f8f5ec; }
+.carta.reverso[data-reverso="hechicero"] { background:#1e3a8a url("img/reverso-hechicero.jpg") center/cover no-repeat; border-color:#f8f5ec; }
+.carta.reverso[data-reverso="tiburon"] { background:#0e7490 url("img/reverso-tiburon.jpg") center/cover no-repeat; border-color:#f8f5ec; }
+.carta.robable { cursor:pointer; box-shadow:0 0 0 3px var(--acento), 0 6px 16px #0006; }
+.carta.robable:hover { transform:translateY(-4px); }
+.pila .carta:not(.robable) { opacity:.92; }
+#mano .carta:hover:not(:disabled), .carta:focus-visible { transform:translateY(-5px); box-shadow:0 8px 18px #0006; border-color:var(--primario); outline:none; }
+.carta.inactiva { cursor:grab; }
+.carta.arrastrando { opacity:.35; }
+.carta.sobre { border-color:var(--acento); transform:translateY(-6px); }
+.carta:focus-visible { outline:3px solid var(--primario); outline-offset:2px; }
+
+/* ---- mesa: rivales alrededor (reverso), mazo/pozo/turno al centro, tu mano abajo (anverso) ---- */
+#info { font-weight:700; font-size:1.05rem; display:inline-block; margin-right:.8rem; }
+#btn-copiar-codigo { font-size:.82rem; padding:.35rem .7rem; }
+#mesa-juego { display:grid; gap:.8rem; margin:.9rem 0 1.2rem;
+  grid-template-columns:minmax(110px,1fr) minmax(0,2.4fr) minmax(110px,1fr);
+  grid-template-areas:". arriba ." "izquierda centro derecha" "mano mano mano"; }
+#asiento-arriba { grid-area:arriba; } #asiento-izquierda { grid-area:izquierda; } #asiento-derecha { grid-area:derecha; }
+#centro { grid-area:centro; text-align:center; padding:1.1rem 1rem; border-radius:20px; border:1px solid #ffffff1c;
+  background:radial-gradient(ellipse at 50% 35%, var(--fieltro-1) 0, var(--fieltro-2) 78%); box-shadow:inset 0 0 60px #0006, var(--sombra); }
+#panel-mano { grid-area:mano; padding:.9rem 1.1rem 1rem; border-radius:var(--radio); background:var(--superficie); border:1px solid var(--linea-suave); transition:border-color .2s, box-shadow .2s; }
+#panel-mano.tuyo { border-color:var(--acento); box-shadow:0 0 0 3px #f4b74026; }
+.encabezado-mano { align-items:center; margin-top:0; }
+.encabezado-mano h3 { margin:0 auto 0 0; }
+.encabezado-mano button { font-size:.8rem; padding:.4rem .7rem; }
+#panel-mano .ayuda { margin-top:.2rem; }
+.pilas { display:flex; gap:1.6rem; justify-content:center; align-items:flex-start; }
+.pila { text-align:center; font-size:.78rem; position:relative; text-transform:uppercase; letter-spacing:.08em; }
+.pila > span { display:block; margin-bottom:.35rem; color:#ffffffb3; }
+.pila .carta { margin:0 auto; }
+#n-mazo { pointer-events:none; position:absolute; left:0; right:0; bottom:.7rem; font-size:1.2rem; color:#fff; text-shadow:0 0 4px #000, 0 0 6px #000; letter-spacing:0; }
+#tope-pozo .vacio { width:58px; height:84px; border:2px dashed #ffffff55; border-radius:8px; display:flex; align-items:center; justify-content:center; margin:0 auto; }
+#centro .fila { justify-content:center; }
+#turno { margin:.9rem auto .4rem; padding:.55rem .9rem; border-radius:10px; font-size:.95rem; background:#00000040; border:1px solid #ffffff1f; max-width:34rem; }
+#turno.tuyo { background:var(--acento); border-color:var(--acento); color:#1a1305; font-weight:700; animation:pulso 1.8s ease-in-out infinite; }
+#turno.fin { background:#fff; color:#111; font-weight:700; border-color:#fff; }
+#reloj { margin:.3rem 0; font-variant-numeric:tabular-nums; color:#ffffffcc; font-size:.9rem; }
+#reloj.urgente { color:#ffb4b4; font-weight:700; }
+#ayuda-cierre { color:#ffffffcc; min-height:1.2rem; }
+@keyframes pulso { 50% { box-shadow:0 0 0 7px #f4b74033; } }
+@media (prefers-reduced-motion: reduce) { #turno.tuyo { animation:none; } .carta { transition:none; } }
+
+.asiento { display:flex; flex-direction:column; align-items:center; gap:.4rem; min-height:60px; padding:.55rem; border-radius:14px; border:1px solid transparent; background:var(--superficie); border-color:var(--linea-suave); }
+.asiento:empty { visibility:hidden; }
+.asiento.turno { border-color:var(--acento); box-shadow:0 0 0 3px #f4b74026; }
+.asiento .etiqueta { font-size:.82rem; text-align:center; line-height:1.25; color:var(--suave); }
+.asiento .etiqueta b { display:block; color:var(--texto); font-size:.92rem; }
+.asiento.eliminado { opacity:.45; }
+.asiento.desconectado .abanico, .asiento.desconectado .etiqueta { opacity:.55; }
+.abanico { display:flex; flex-wrap:nowrap; justify-content:center; }
+.abanico .carta.reverso { width:34px; height:48px; border-width:1px; border-radius:5px; flex:0 0 auto; box-shadow:0 1px 3px #0006; }
+.abanico .carta.reverso + .carta.reverso { margin-left:-20px; }
+.asiento.izquierda .abanico, .asiento.derecha .abanico { flex-direction:column; }
+.asiento.izquierda .abanico .carta.reverso, .asiento.derecha .abanico .carta.reverso { width:48px; height:34px; }
+.asiento.izquierda .abanico .carta.reverso + .carta.reverso, .asiento.derecha .abanico .carta.reverso + .carta.reverso { margin-left:0; margin-top:-22px; }
+
+#pantalla-juego > h3 { margin-top:.4rem; }
+#marcador { background:var(--superficie); border:1px solid var(--linea-suave); border-radius:var(--radio); overflow:hidden; }
+#marcador th, #marcador td { padding:.6rem .9rem; }
+
+/* ---- resultado de ronda ---- */
+#resultado { position:fixed; inset:0; background:#050a14cc; backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:1rem; overflow:auto; z-index:10; }
+#resultado[hidden] { display:none; }
+.tarjeta-resultado { background:var(--superficie); border:1px solid var(--linea); border-radius:16px; padding:1.4rem 1.6rem; width:min(580px,100%); max-height:100%; overflow:auto; box-shadow:0 24px 60px #000a; }
+.tarjeta-resultado h2 { margin:0 0 .2rem; font-size:1.5rem; }
+.tarjeta-resultado h3 { margin:1.2rem 0 .5rem; }
+#resultado-sub { margin:0 0 .9rem; color:var(--suave); }
+.suma { color:var(--ok); font-weight:700; }
+.resta { color:var(--mal); font-weight:700; }
+.mano-final { display:flex; align-items:center; gap:.3rem; flex-wrap:wrap; margin:.35rem 0; }
+.mano-final > span { min-width:7rem; font-size:.88rem; color:var(--suave); }
+.mini { width:34px; height:46px; font-size:.8rem; cursor:default; border-radius:5px; }
+#btn-continuar { margin-top:1.2rem; width:100%; padding:.75rem; }
+.revancha { margin-top:1rem; display:flex; flex-wrap:wrap; gap:.5rem; }
+.revancha[hidden] { display:none; }
+.revancha button { flex:1 1 200px; }
+.revancha .ayuda { flex-basis:100%; margin:0; }
+
+@media (max-width: 720px) {
+  header { flex-wrap:wrap; padding:.6rem .9rem; }
+  header .skins { margin-left:0; width:100%; }
+  .rejilla { grid-template-columns:1fr; }
+  #mesa-juego { grid-template-columns:1fr 1fr; grid-template-areas:"izquierda derecha" "arriba arriba" "centro centro" "mano mano"; }
+  .asiento.izquierda .abanico, .asiento.derecha .abanico { flex-direction:row; }
+  .asiento.izquierda .abanico .carta.reverso, .asiento.derecha .abanico .carta.reverso { width:34px; height:48px; }
+  .asiento.izquierda .abanico .carta.reverso + .carta.reverso, .asiento.derecha .abanico .carta.reverso + .carta.reverso { margin-top:0; margin-left:-20px; }
+  .carta { width:50px; height:74px; }
+}
+
+/* ---- ajustes de celular: nada debe desbordar el ancho de la pantalla ---- */
+.rejilla > *, main, .tarjeta { min-width:0; }
+#historial-tabla { display:block; overflow-x:auto; }
+@media (max-width: 720px) {
+  main { padding:1rem .9rem 2.5rem; }
+  .tarjeta { padding:1rem; }
+  #historial-tabla th, #historial-tabla td { padding:.4rem .35rem; font-size:.8rem; }
+  #historial-tabla th { font-size:.62rem; letter-spacing:.03em; }
+}
+
+@media (max-width: 720px) { .asiento:empty { display:none; } }
+
+/* ultima carta descartada por cada jugador */
+.ultimo-descarte { display:flex; align-items:center; gap:.4rem; font-size:.75rem; color:var(--suave); }
+.ultimo-descarte.sin-descarte { font-style:italic; opacity:.7; }
+.carta.mini { width:30px; height:42px; font-size:.78rem; border-radius:5px; box-shadow:0 1px 2px #0005; flex:0 0 auto; }
+.carta.mini:hover { transform:none; }
+#mi-descarte { margin-left:auto; }
+
+/* comodines opcionales */
+.carta.comodin { color:#7c3aed; font-size:1.5rem; background:linear-gradient(160deg,var(--anverso-fondo),#ede9fe); }
+.opcion { display:flex; align-items:center; gap:.5rem; margin:.5rem 0 .2rem; cursor:pointer; font-size:.92rem; }
+.opcion input { width:1.1rem; height:1.1rem; accent-color:var(--acento); }

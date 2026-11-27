@@ -1,0 +1,50 @@
+sequenceDiagram
+  autonumber
+  actor J as Jugador (UI navegador)
+  participant G as PartidaGateway
+  participant C as PartidaController
+  participant S as PartidaService
+  participant M as MotorLogicaJuego
+  participant R as ReglaJuego (plug-in)
+  participant P as IPartidaRepository
+  participant D as PostgreSQL
+  J->>G: WS {accion:"cerrar", ronda:n}
+  G->>C: manejar(jugadorId, comando)
+  C->>S: cerrarRonda(id, jugadorId, n)
+  Note over S,M: cola por partida (ADR-05): una operación a la vez
+  S->>P: cargar(id)
+  P->>D: SELECT snapshot
+  D-->>P: Partida
+  P-->>S: Partida
+  alt ronda != rondaEsperada o partida finalizada
+    S-->>G: ErrorDominio RONDA_YA_CERRADA
+    G-->>J: {tipo:"error", codigo}
+  else ronda vigente
+    Note over S,M: exigirTurno: es su turno y la partida sigue en curso
+    S->>M: validarCierre(modalidad, mano)
+    M->>R: validarCierre(mano)
+    R-->>M: ResultadoValidacion
+    M-->>S: ResultadoValidacion
+    alt la mano no cumple la modalidad
+      Note over S,M: resta 5 puntos y conserva el turno
+      S-->>G: ErrorDominio CIERRE_INVALIDO (sin decir qué falta)
+      G-->>J: {tipo:"error", codigo, mensaje}
+    else cierre válido
+      S->>M: liquidarRonda(modalidad, cierraId, manos)
+      M->>R: calcularPenalizacion(mano) por jugador
+      R-->>M: puntos sueltos
+      M-->>S: Liquidacion (+10, o −sobrante si cierra con toque)
+      Note over S,R: acumula puntajes y elimina a quien llegue a −101 o menos
+      alt Clásica: conservaHistorial() = false
+        Note over S,R: la partida termina y gana quien cierra
+      else Apuntado: conservaHistorial() = true
+        Note over S,R: termina si alguien llega a 51 o queda uno, si no reparte la ronda siguiente
+      end
+      S->>P: guardarCierreRonda(CierreRonda)
+      P->>D: BEGIN · INSERT ronda_cierre (PK partida,ronda) · UPSERT partida · COMMIT
+      D-->>P: ok
+      Note over S,M: reinicia el reloj del turno, o lo detiene si terminó
+      S-->>G: Partida (evento RONDA_CERRADA en BusEventos)
+      G-->>J: {tipo:"vista", vista} difundida a la sala
+    end
+  end

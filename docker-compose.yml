@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    environment: { POSTGRES_PASSWORD: cartas, POSTGRES_DB: cartas }
+    volumes:
+      - ./backend/db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U postgres"], interval: 5s, retries: 10 }
+  app:
+    build: { context: ., dockerfile: backend/Dockerfile }
+    environment:
+      DATABASE_URL: postgres://postgres:cartas@db:5432/cartas
+      PORT: "3000"
+      TURNO_SEGUNDOS: "${TURNO_SEGUNDOS:-60}"                     # 0 = sin limite de tiempo
+      ABANDONO_TOTAL_SEGUNDOS: "${ABANDONO_TOTAL_SEGUNDOS:-300}"
+    ports: ["3000:3000"]
+    depends_on: { db: { condition: service_healthy } }

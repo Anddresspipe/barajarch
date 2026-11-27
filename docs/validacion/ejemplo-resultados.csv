@@ -1,0 +1,4 @@
+id,modalidad,cerro_ronda_valida,errores,tiempo_por_turno_s,satisfaccion_1a5,latencia_percibida_1a5,sus_0a100
+EJ1,Clasica,Si,1,22,4,5,80
+EJ2,Ambas,Si,2,31,4,4,72.5
+EJ3,Clasica,No,3,45,3,4,60

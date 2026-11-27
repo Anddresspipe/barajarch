@@ -1,0 +1,142 @@
+classDiagram
+  direction LR
+  class ReglaJuego {
+    <<interface>>
+    +getCodigo() string
+    +getCartasPorMano() number
+    +validarCierre(mano: readonly Carta[]) ResultadoValidacion
+    +calcularBonoCierre(mano: readonly Carta[]) number
+    +calcularPenalizacion(mano: readonly Carta[]) number
+    +debeEliminar(acumulado: number) boolean
+    +haGanado(acumulado: number) boolean
+    +conservaHistorial() boolean
+  }
+  class IRegistroReglas {
+    <<interface>>
+    +obtener(codigo: string) ReglaJuego
+    +codigos() string[]
+  }
+  class RegistroReglas {
+    -reglas: Map~string, ReglaJuego~
+    +registrar(regla: ReglaJuego) this
+    +obtener(codigo: string) ReglaJuego
+    +codigos() string[]
+  }
+  class ReglaClasicaCuartaTerna {
+    +validarCierre(mano: readonly Carta[]) ResultadoValidacion
+    +calcularBonoCierre(mano: readonly Carta[]) number
+    +calcularPenalizacion(mano: readonly Carta[]) number
+  }
+  class ReglaApuntado101 {
+    +validarCierre(mano: readonly Carta[]) ResultadoValidacion
+    +calcularBonoCierre(mano: readonly Carta[]) number
+    +calcularPenalizacion(mano: readonly Carta[]) number
+    +debeEliminar(acumulado: number) boolean
+    +haGanado(acumulado: number) boolean
+  }
+  class MotorLogicaJuego {
+    -registro: IRegistroReglas
+    +validarCierre(modalidad: string, mano: readonly Carta[]) ResultadoValidacion
+    +liquidarRonda(modalidad: string, cierraId: string, manos: Record~string, readonly Carta[]~) Liquidacion
+    +cartasPorMano(modalidad: string) number
+    +modalidadesConHistorial() string[]
+    +debeEliminar(modalidad: string, acumulado: number) boolean
+    +haGanado(modalidad: string, acumulado: number) boolean
+  }
+  class Carta {
+    +valor: Valor
+    +palo: Palo
+    +rango() number
+    +puntos() number
+    +codigo() string
+    +desde(codigo: string)$ Carta
+  }
+  class Partida {
+    +id: string
+    +modalidad: string
+    +estado: EstadoPartida
+    +jugadores: Jugador[]
+    +mazo: Carta[]
+    +pozo: Carta[]
+    +turno: number
+    +fase: FaseTurno
+    +ronda: number
+    +version: number
+  }
+  class Jugador {
+    +id: string
+    +nombre: string
+    +mano: Carta[]
+    +acumulado: number
+    +eliminado: boolean
+  }
+  class PartidaService {
+    -repo: IPartidaRepository
+    -motor: MotorLogicaJuego
+    -bus: BusEventos
+    -cola: ColaPorPartida
+    +crear(modalidad: string, adminId: string, nombre: string) Promise~Partida~
+    +unirse(id: string, jugadorId: string, nombre: string) Promise~Partida~
+    +iniciar(id: string, jugadorId: string) Promise~Partida~
+    +robar(id: string, jugadorId: string, origen: OrigenRobo) Promise~Partida~
+    +descartar(id: string, jugadorId: string, codigo: string) Promise~Partida~
+    +cerrarRonda(id: string, jugadorId: string, rondaEsperada: number) Promise~Partida~
+    +registrarOrden(id: string, jugadorId: string, codigos: unknown) Promise~Partida~
+    +revancha(id: string, jugadorId: string, modalidad: string, conservar: boolean) Promise~Partida~
+    +herenciaPendiente(p: Partida) Votacion
+    +traspasables(p: Partida) string[]
+    -liquidar(p: Partida, cierraId: string) void
+    -repartir(p: Partida) void
+    -exigirTurno(p: Partida, jugadorId: string, fase?: FaseTurno) void
+  }
+  class IPartidaRepository {
+    <<interface>>
+    +guardar(p: Partida) Promise~void~
+    +cargar(id: string) Promise~Partida | undefined~
+    +listar() Promise~Partida[]~
+    +guardarCierreRonda(c: CierreRonda) Promise~void~
+  }
+  class PartidaRepositoryPostgres {
+    -pool: Pool
+  }
+  class PartidaRepositoryEnMemoria {
+    -partidas: Map~string, string~
+    -cierres: Set~string~
+  }
+  class BusEventos {
+    -manejadores: Manejador~EventoDominio~[]
+    +suscribir(m: Manejador~EventoDominio~) void
+    +publicar(e: EventoDominio) void
+  }
+  class PartidaController {
+    -servicio: PartidaService
+    -acciones: Record~string, Accion~
+    +manejar(jugadorId: string, c: Comando) Promise~VistaPartida~
+    +vista(partidaId: string, jugadorId: string) Promise~VistaPartida~
+  }
+  class PartidaGateway {
+    -sesiones: Map~WebSocket, Sesion~
+    -alMensaje(ws: WebSocket, texto: string) Promise~void~
+    -difundir(partidaId: string) Promise~void~
+  }
+  class LobbyService {
+    -usuarios: UsuarioRepository
+    -partidas: PartidaService
+    +entrar(nombre: unknown, pin: unknown) Promise~Ficha~
+  }
+  ReglaClasicaCuartaTerna ..|> ReglaJuego
+  ReglaApuntado101 ..|> ReglaJuego
+  RegistroReglas ..|> IRegistroReglas
+  RegistroReglas o-- ReglaJuego
+  MotorLogicaJuego --> IRegistroReglas
+  PartidaService --> MotorLogicaJuego
+  PartidaService --> IPartidaRepository
+  PartidaService --> BusEventos
+  PartidaRepositoryPostgres ..|> IPartidaRepository
+  PartidaRepositoryEnMemoria ..|> IPartidaRepository
+  Partida *-- Jugador
+  Jugador o-- Carta
+  PartidaController --> PartidaService
+  PartidaGateway --> PartidaController
+  PartidaGateway --> BusEventos
+  LobbyService --> PartidaService

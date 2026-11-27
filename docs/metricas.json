@@ -1,0 +1,109 @@
+{
+  "modulos": [
+    {
+      "modulo": "app",
+      "Ca": 0,
+      "Ce": 15,
+      "I": 1,
+      "A": 0,
+      "D": 0,
+      "zona": "ok"
+    },
+    {
+      "modulo": "compartido",
+      "Ca": 16,
+      "Ce": 0,
+      "I": 0,
+      "A": 0,
+      "D": 1,
+      "zona": "dolor"
+    },
+    {
+      "modulo": "lobby",
+      "Ca": 1,
+      "Ce": 3,
+      "I": 0.75,
+      "A": 0.13,
+      "D": 0.13,
+      "zona": "ok"
+    },
+    {
+      "modulo": "motor-reglas",
+      "Ca": 4,
+      "Ce": 1,
+      "I": 0.2,
+      "A": 0.25,
+      "D": 0.55,
+      "zona": "ok"
+    },
+    {
+      "modulo": "partidas",
+      "Ca": 2,
+      "Ce": 6,
+      "I": 0.75,
+      "A": 0.07,
+      "D": 0.18,
+      "zona": "ok"
+    }
+  ],
+  "cc": {
+    "funciones": 118,
+    "max": 10,
+    "promedio": 3.43,
+    "menorA5": 89,
+    "entre5y10": 29,
+    "mayorA10": 0,
+    "top10": [
+      {
+        "archivo": "partidas/controlador/PartidaGateway.ts",
+        "funcion": "Async method 'alMensaje'",
+        "cc": 10
+      },
+      {
+        "archivo": "partidas/servicio/VistaPartida.ts",
+        "funcion": "Function 'vistaPara'",
+        "cc": 10
+      },
+      {
+        "archivo": "partidas/servicio/PartidaService.ts",
+        "funcion": "Async arrow function",
+        "cc": 9
+      },
+      {
+        "archivo": "motor-reglas/EvaluadorCombinaciones.ts",
+        "funcion": "Function 'particionar'",
+        "cc": 8
+      },
+      {
+        "archivo": "app/main.ts",
+        "funcion": "Function 'arrancar'",
+        "cc": 7
+      },
+      {
+        "archivo": "lobby/servicio/LobbyService.ts",
+        "funcion": "Async method 'entrar'",
+        "cc": 7
+      },
+      {
+        "archivo": "lobby/servicio/LobbyService.ts",
+        "funcion": "Async method 'verificar'",
+        "cc": 7
+      },
+      {
+        "archivo": "partidas/controlador/PartidaGateway.ts",
+        "funcion": "Method 'leerComando'",
+        "cc": 7
+      },
+      {
+        "archivo": "partidas/servicio/PartidaService.ts",
+        "funcion": "Async arrow function",
+        "cc": 7
+      },
+      {
+        "archivo": "partidas/servicio/PartidaService.ts",
+        "funcion": "Method 'retirar'",
+        "cc": 7
+      }
+    ]
+  }
+}
