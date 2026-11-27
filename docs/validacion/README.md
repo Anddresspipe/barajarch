@@ -1,8 +1,8 @@
 # Validación con usuarios
 
-Evidencias y resultados de las pruebas con 5 personas ajenas al desarrollo (U01 a U05). Los datos son reales y salen de un formulario de Google. Los resultados completos y su análisis están en la sección 3 del informe de la Entrega 3.
+Se aplicó una encuesta de Google Forms a 5 personas ajenas al desarrollo (U01 a U05), con datos reales. El análisis completo está en la sección 3 del informe de la Entrega 3.
 
-## Resultado en una mirada
+## Resultados
 
 | Criterio | Meta | Resultado | ¿Se cumple? |
 |---|---|---|---|
@@ -10,43 +10,18 @@ Evidencias y resultados de las pruebas con 5 personas ajenas al desarrollo (U01 
 | SUS medio | ≥ 68 | 83,0 | Sí |
 | Satisfacción media | ≥ 4 | 4,4 | Sí |
 
-Son pocas personas, casi todas cercanas al autor, así que los porcentajes son un indicio y no una prueba estadística. No se registraron errores, tiempo por turno ni modalidad jugada por persona. Esos datos no se estimaron.
+No se registraron errores, tiempo por turno ni modalidad jugada por persona.
 
 ## Archivos
 
 | Archivo | Contenido |
 |---|---|
-| `respuestas-formulario.csv` | Respuestas por participante, solo con el código (U01, U02...) y sin nombres |
-| `resultados.csv` | Resumen que lee el script de resultados: cierre válido, satisfacción, latencia percibida y SUS |
-| `crear-formulario.gs` | Script de Google Apps Script que crea el formulario de la encuesta |
-| `evidencias/` | Capturas de partidas reales y de la ejecución de la CI en GitHub Actions |
-
-## Cómo reproducir el resumen
-
-Desde `backend/`:
-
-```bash
-npm run validacion
-```
-
-Lee `resultados.csv` y compara con los criterios de éxito. Si no hay filas no inventa nada. Para calcular el SUS de un cuestionario suelto, con las 10 respuestas de 1 a 5:
-
-```bash
-npm run validacion -- sus 4 2 4 1 4 2 5 1 4 2
-```
-
-## Cómo crear la encuesta
-
-1. Entra a https://script.google.com y crea un proyecto nuevo.
-2. Pega el contenido de `crear-formulario.gs`.
-3. Ejecuta la función `crearFormulario` y acepta los permisos.
-4. Los enlaces para editar y para compartir el formulario salen en *Ver > Registros*.
-
-El formulario abre con el aviso de que la participación es voluntaria y anónima, y recoge tareas, escalas de satisfacción, velocidad y claridad, el cuestionario SUS y cinco preguntas abiertas.
+| `respuestas-formulario.csv` | Respuestas por participante, solo con el código (U01 a U05) |
+| `resultados.csv` | Cierre válido, satisfacción, latencia percibida y SUS por participante |
+| `crear-formulario.gs` | Script de Google Apps Script con el que se creó el formulario |
+| `evidencias/` | Capturas de partidas reales y de la ejecución de la CI |
 
 ## Evidencias
-
-Las imágenes de `evidencias/` se recortaron para no mostrar nada ajeno al juego.
 
 | Captura | Qué muestra |
 |---|---|
