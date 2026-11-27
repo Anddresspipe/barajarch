@@ -42,6 +42,3 @@ Firma o aceptación verbal registrada: ______
 1. Agregar una fila a `resultados.csv` con los datos observados (columnas en la primera línea).
 2. Guardar aquí las capturas, grabaciones y el consentimiento con el ID del participante.
 3. Ejecutar `cd backend && npm run validacion` para ver promedios y compararlos con los criterios (cierre válido ≥ 80 %, SUS ≥ 68, satisfacción ≥ 4).
-
-
-Hay un ejemplo completo con datos ficticios en `ejemplo.md`. No se mezcla con los resultados reales.
